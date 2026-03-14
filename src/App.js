@@ -32,6 +32,7 @@ function App() {
         ]
     const [currentQuestion, setCurrent] = useState(null)
     const [remainingQuestions, remRemaining] = useState([])
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
 
     const changeToQuiz = () =>{
         addPoint(0);
@@ -44,6 +45,7 @@ function App() {
         if (remainingQuestions.length === 0){
             setQuizStatus('endScreen');
             return;}
+        setSelectedAnswer(null);
         const randomQuestion = Math.floor(Math.random() * remainingQuestions.length);
         const chosenQuestion = remainingQuestions[randomQuestion];
         const newRemaining = remainingQuestions.filter(question => question.id !== chosenQuestion.id);
@@ -55,9 +57,11 @@ function App() {
     const changeToMenu = () => {setQuizStatus('menu');};
 
     const questionAnswer = (answer) => {
-        if (answer === currentQuestion.correct){
-            addPoint(punktid + 1);}
-        nextQuestion(remainingQuestions);
+        if (selectedAnswer) return;
+        setSelectedAnswer(answer);
+        if (answer === currentQuestion.correct) {
+            addPoint(punktid + 1);
+        }
     };
     return (
         <div className="App">
@@ -72,16 +76,29 @@ function App() {
                     <div className="view">
                         <h1>{currentQuestion.question}</h1>
                         <div className="options">
-                            {currentQuestion.options.map((option, index) => (
-                                <button
-                                    key={index} className="btn-main" onClick={() => questionAnswer(option)}>{option}
-                                </button>
-                            ))}
+                            {currentQuestion.options.map((option, index) => {
+                                let style = {};
+                                if (selectedAnswer) {
+                                    if (option === currentQuestion.correct) style = { backgroundColor: 'green' };
+                                    else if (option === selectedAnswer) style = { backgroundColor: 'red' };}
+                                return (
+                                    <button
+                                        key={index}
+                                        style={style}
+                                        className="btn-main"
+                                        onClick={() => questionAnswer(option)}>
+                                        {option}
+                                    </button>
+                                );
+                            })}
                         </div>
-                        <button onClick={changeToEndscreen}> Endscreen emergency</button>
+                        {selectedAnswer && (
+                            <button className="btn-main" onClick={() => nextQuestion(remainingQuestions)}>Järgmine küsimus</button>
+                        )}
                         <p>Punktid: {punktid}</p>
                     </div>
                 )}
+
                 {quizStatus === 'endScreen' && (
                     <div className="view">
                         <h1>Tulemus: {punktid} / {questionsData.length}</h1>
