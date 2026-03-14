@@ -27,42 +27,70 @@ function App() {
             id: 4,
             question: "Mis on koige parem koht eestis?",
             options: ["Tartu", "Tallinn", "Tsoglo"],
-            correct: "tsoglo"
+            correct: "Tsoglo"
         },
         ]
+    const [currentQuestion, setCurrent] = useState(null)
+    const [remainingQuestions, remRemaining] = useState([])
 
-    const changeToQuiz = () => {setQuizStatus('quiz');};
-    const nextQuestion = () => {}; //suvaliselt paneb kusimused ette
+    const changeToQuiz = () =>{
+        addPoint(0);
+        setQuizStatus('quiz');
+        remRemaining(questionsData);
+        nextQuestion(questionsData)
+    };
+
+    const nextQuestion = (remainingQuestions) => {
+        if (remainingQuestions.length === 0){
+            setQuizStatus('endScreen');
+            return;}
+        const randomQuestion = Math.floor(Math.random() * remainingQuestions.length);
+        const chosenQuestion = remainingQuestions[randomQuestion];
+        const newRemaining = remainingQuestions.filter(question => question.id !== chosenQuestion.id);
+        setCurrent(chosenQuestion);
+        remRemaining(newRemaining);
+    };
+
     const changeToEndscreen = () => {setQuizStatus('endScreen');};
     const changeToMenu = () => {setQuizStatus('menu');};
 
-    const questionAnswer = (Answer) => {
-
-    }
-  return (
-    <div className="App">
-      <div className="quizContainer">
-          {quizStatus === 'menu' && (
-              <div className="view">
-                  <h1>Viktoriin menu</h1>
-                  <button className="btn-main" onClick={changeToQuiz}>Alusta viktoriini</button>
-              </div>
-          )}
-          {quizStatus === 'quiz' && (
-              <div className="view">
-                  <h1>Viktoriin ise</h1>
-                  <button className="btn-main" onClick={ changeToEndscreen}>Alusta tulemus</button>
-              </div>
-          )}
-          {quizStatus === 'endScreen' && (
-              <div className="view">
-                  <h1>Viktoriin tulemus</h1>
-                  <button className="btn-main" onClick={changeToMenu}>Alusta algus</button>
-              </div>
-          )}
-      </div>
-    </div>
-  );
+    const questionAnswer = (answer) => {
+        if (answer === currentQuestion.correct){
+            addPoint(punktid + 1);}
+        nextQuestion(remainingQuestions);
+    };
+    return (
+        <div className="App">
+            <div className="quizContainer">
+                {quizStatus === 'menu' && (
+                    <div className="view">
+                        <h1>Viktoriini menüü</h1>
+                        <button className="btn-main" onClick={changeToQuiz}>Alusta viktoriini</button>
+                    </div>
+                )}
+                {quizStatus === 'quiz' && currentQuestion && (
+                    <div className="view">
+                        <h1>{currentQuestion.question}</h1>
+                        <div className="options">
+                            {currentQuestion.options.map((option, index) => (
+                                <button
+                                    key={index} className="btn-main" onClick={() => questionAnswer(option)}>{option}
+                                </button>
+                            ))}
+                        </div>
+                        <button onClick={changeToEndscreen}> Endscreen emergency</button>
+                        <p>Punktid: {punktid}</p>
+                    </div>
+                )}
+                {quizStatus === 'endScreen' && (
+                    <div className="view">
+                        <h1>Tulemus: {punktid} / {questionsData.length}</h1>
+                        <button className="btn-main" onClick={changeToMenu}>Tagasi algusesse</button>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
 }
 
 export default App;
