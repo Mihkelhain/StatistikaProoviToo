@@ -1,4 +1,4 @@
-import React, {use, useState} from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
@@ -29,6 +29,18 @@ function App() {
             question: "Mis on koige parem koht eestis?",
             options: ["Tartu", "Tallinn", "Tsoglo"],
             correct: "Tsoglo"
+        },
+        {
+            id: 5,
+            question: "Mitu tähte a on sõnas maasikas?",
+            options: ["1", "2", "3","4","5"],
+            correct: "3"
+        },
+        {
+            id: 6,
+            question: "Mida tähendab NAT?",
+            options: ["Nice Attitude Today", "Network Aadress Translation", "Network Attrition Topology"],
+            correct: "Network Aadress Translation"
         },
         ]
     const [currentQuestion, setCurrent] = useState(null)
@@ -72,7 +84,17 @@ function App() {
     };
     return (
         <div className="App">
-            <div className="quizContainer">
+            <header className="stat-header">
+                <div className="header-content">
+                    <div className="logo-container">
+                        <img src="/ES_favicon.png" alt="Logo"className="header-logo" />
+                        <span className="logo-text">Statistika kodutöö</span>
+                    </div>
+                </div>
+                <div className="header-line"></div>
+            </header>
+
+            <main className="quizContainer">
                 {quizStatus === 'menu' && (
                     <div className="view">
                         <h1>Viktoriini menüü</h1>
@@ -86,8 +108,8 @@ function App() {
                             {currentQuestion.options.map((option, index) => {
                                 let style = {};
                                 if (selectedAnswer) {
-                                    if (option === currentQuestion.correct) style = { backgroundColor: 'green' };
-                                    else if (option === selectedAnswer) style = { backgroundColor: 'red' };}
+                                    if (option === currentQuestion.correct) style = { backgroundColor: "#4DC14D" };
+                                    else if (option === selectedAnswer) style = { backgroundColor: "#DC1919" };}
                                 return (
                                     <button
                                         key={index}
@@ -100,16 +122,16 @@ function App() {
                             })}
                         </div>
                         {selectedAnswer && (
-                            <button className="btn-main" onClick={() => nextQuestion(remainingQuestions)}>Järgmine küsimus</button>
+                            <button className="btn-main btn-next" onClick={() => nextQuestion(remainingQuestions)}>Järgmine küsimus</button>
                         )}
-                        <p>Punktid: {punktid}</p>
+                        <p className="score">Punktid: {punktid}</p>
                     </div>
                 )}
 
                 {quizStatus === 'endScreen' && (
                     <div className="view">
                         <h1>Tulemus: {punktid} / {questionsData.length}</h1>
-                        <table className="answers-table" style={{}}>
+                        <table className="answers-table">
                             <thead>
                             <tr>
                                 <th>Küsimus</th>
@@ -119,7 +141,7 @@ function App() {
                             </thead>
                             <tbody>
                             {questionsAnswered.map((item, index) => (
-                                <tr key={index} style={{ color: item.correct ? 'green' : 'red' }}>
+                                <tr key={index} className={item.correct ? "row-correct" : "row-wrong"}>
                                     <td>{item.question}</td>
                                     <td>{item.userAnswer}</td>
                                     <td>
@@ -132,7 +154,7 @@ function App() {
                         <button className="btn-main" onClick={changeToMenu}>Tagasi algusesse</button>
                     </div>
                 )}
-            </div>
+            </main>
         </div>
     );
 }
