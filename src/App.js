@@ -4,6 +4,7 @@ import './App.css';
 function App() {
     const [quizStatus, setQuizStatus] = useState('menu');
     const [punktid, addPoint] = useState(0);
+
     const questionsData = [
         {
             id: 1,
@@ -32,11 +33,13 @@ function App() {
         ]
     const [currentQuestion, setCurrent] = useState(null)
     const [remainingQuestions, remRemaining] = useState([])
+    const [questionsAnswered, setAnsweredQuestions] = useState([]);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
 
     const changeToQuiz = () =>{
         addPoint(0);
         setQuizStatus('quiz');
+        setAnsweredQuestions([]);
         remRemaining(questionsData);
         nextQuestion(questionsData)
     };
@@ -52,16 +55,20 @@ function App() {
         setCurrent(chosenQuestion);
         remRemaining(newRemaining);
     };
-
-    const changeToEndscreen = () => {setQuizStatus('endScreen');};
     const changeToMenu = () => {setQuizStatus('menu');};
 
     const questionAnswer = (answer) => {
         if (selectedAnswer) return;
         setSelectedAnswer(answer);
-        if (answer === currentQuestion.correct) {
+        const answerCorrect = answer === currentQuestion.correct;
+        if (answerCorrect) {
             addPoint(punktid + 1);
         }
+        setAnsweredQuestions([...questionsAnswered, {
+            question: currentQuestion.question,
+            userAnswer: answer,
+            correct: answerCorrect
+        }]);
     };
     return (
         <div className="App">
@@ -102,6 +109,26 @@ function App() {
                 {quizStatus === 'endScreen' && (
                     <div className="view">
                         <h1>Tulemus: {punktid} / {questionsData.length}</h1>
+                        <table className="answers-table" style={{}}>
+                            <thead>
+                            <tr>
+                                <th>Küsimus</th>
+                                <th >Sinu vastus</th>
+                                <th>Tulemus</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {questionsAnswered.map((item, index) => (
+                                <tr key={index} style={{ color: item.correct ? 'green' : 'red' }}>
+                                    <td>{item.question}</td>
+                                    <td>{item.userAnswer}</td>
+                                    <td>
+                                        {item.correct ? "Õige" : "Vale"}
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
                         <button className="btn-main" onClick={changeToMenu}>Tagasi algusesse</button>
                     </div>
                 )}
