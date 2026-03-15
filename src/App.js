@@ -134,6 +134,12 @@ function App() {
                 {quizStatus === 'endScreen' && (
                     <div className="view">
                         <h1>Tulemus: {punktid} / {questionsData.length}</h1>
+                        <h3 className="rightPercentage">Sa said {((punktid/questionsData.length)*100).toFixed(1)}% õigesti</h3>
+                        <h3 className="resultMessage">
+                            {punktid === questionsData.length && "Väga hea töö, said kõik õigesti."}
+                            {punktid < questionsData.length && punktid >= questionsData.length / 2 && "Läbiv hinne, kuigi peaks ikka materjali ülevaatama."}
+                            {punktid < questionsData.length / 2 && "Ei saanud piisavalt punkte, et viktoriinist läbi saada  : ("}
+                        </h3>
                         <table className="answers-table">
                             <thead>
                             <tr>

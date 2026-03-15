@@ -137,6 +137,12 @@ h1 {
   line-height: 45px;
   font-weight: 700;
 }
+h3 {
+  font-family: 'Roboto';
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 700;
+}
 button, input, table {
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
