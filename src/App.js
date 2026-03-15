@@ -90,6 +90,9 @@ function App() {
                         <img src="/ES_favicon.png" alt="Logo"className="header-logo" />
                         <span className="logo-text">Statistika kodutöö</span>
                     </div>
+                    <a href="https://github.com/Mihkelhain/StatistikaProoviToo" target="_blank" rel="noreferrer">
+                        <img src='GitHub_Invertocat_Black.png' alt="GithubLink" className="header-github"></img>
+                    </a>
                 </div>
                 <div className="header-line"></div>
             </header>

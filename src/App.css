@@ -53,6 +53,7 @@ body {
   padding: 20px 40px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .logo-text {
@@ -160,4 +161,8 @@ button{
   font-size: 20px;
   color: #000000;
   text-transform: uppercase;
+}
+.header-github{
+  height: 50px;
+  width: auto;
 }
