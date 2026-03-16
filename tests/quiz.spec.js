@@ -52,7 +52,7 @@ const questionsData = [
     {
         id: 9,
         question: "Mis on Eesti kõrgeim mägi?",
-        options: ["Suur Munamägi","Vällamägi", "Kuutsemägi"],
+        options: ["Suur Munamägi","Vällamägi", "Kuutsemägi","Väike Munamägi"],
         correct: "Suur Munamägi"
     },
     {
@@ -71,7 +71,7 @@ test.describe('viktoriin playwright test', () => {
 
         const question1Text = await page.locator('h1').innerText();
         const question1Data = questionsData.find(q => q.question === question1Text);
-        const rightAnswer = question1Data.options.find(opt => opt == question1Data.correct);
+        const rightAnswer = question1Data.options.find(opt => opt === question1Data.correct);
         await page.click(`button:has-text("${rightAnswer}")`);
         await expect(page.locator('.score')).toContainText('Punktid: 1');
         const rightBtn = page.locator(`button:has-text("${rightAnswer}")`);
@@ -93,7 +93,7 @@ test.describe('viktoriin playwright test', () => {
             await page.click(`button:has-text("${currentQData.correct}")`);
         }
         await page.click('text=Järgmine küsimus');
-        await expect(page.locator('h1')).toContainText('Tulemus: 5 / 6');
+        await expect(page.locator('h1')).toContainText(`Tulemus: ${questionsData.length-1} / ${questionsData.length}`);
         await expect(page.locator('.row-wrong')).toHaveCount(1);
     });
 });

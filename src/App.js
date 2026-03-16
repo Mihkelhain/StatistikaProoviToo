@@ -51,7 +51,7 @@ function App() {
         {
             id: 8,
             question: "Milline neist on Eesti suurim saar?",
-            options: ["Hiiumaa", "Saaremaa","ruhnu" ],
+            options: ["Hiiumaa", "Saaremaa","Ruhnu" ],
             correct: "Saaremaa"
         },
         {
@@ -67,11 +67,15 @@ function App() {
             correct: "Eesti"
         }
     ];
+
     const [currentQuestion, setCurrent] = useState(null)
     const [remainingQuestions, remRemaining] = useState([])
     const [questionsAnswered, setAnsweredQuestions] = useState([]);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
 
+    /**
+     * changeToQuiz Muudab kõik andmed oma vaikimisi olukorda ja aktiveerib quiz tseeni.
+     */
     const changeToQuiz = () =>{
         addPoint(0);
         setQuizStatus('quiz');
@@ -80,6 +84,11 @@ function App() {
         nextQuestion(questionsData)
     };
 
+    /**
+     * nextQuestion funktsioon on peamine funktsioon mis tegeleb küsimuste andmisega.
+     * See võttab antud massiivist remainingQuestions suvalise küsimuse kasutades Math.random, ja siis andes selle küsimuse mängija ette, see teeb uue masiivi milles see küsimus ei ole osaline
+     * @param remainingQuestions Massiiv milles on kõik võimalikud küsimused
+     */
     const nextQuestion = (remainingQuestions) => {
         if (remainingQuestions.length === 0){
             setQuizStatus('endScreen');
@@ -91,8 +100,15 @@ function App() {
         setCurrent(chosenQuestion);
         remRemaining(newRemaining);
     };
+
     const changeToMenu = () => {setQuizStatus('menu');};
 
+    /**
+     * questionAnswer
+     * @param answer on mängija poolt valitud vastus antud küsimuse jaoks. Funktsioon kontrollib kas antud valik on õige.
+     * Kui vastus oli õige lisab ta punkti mängijale.
+     * Iga küsimuse jaoks pandakse need kirja questionsAnswered massiivi, et mis on juba vastatud ja mis oli vastus, et saaks mängu lõppus need ette tuua.
+     */
     const questionAnswer = (answer) => {
         if (selectedAnswer) return;
         setSelectedAnswer(answer);
@@ -160,7 +176,7 @@ function App() {
                         <h1>Tulemus: {punktid} / {questionsData.length}</h1>
                         <h3 className="rightPercentage">Sa said {((punktid/questionsData.length)*100).toFixed(1)}% õigesti</h3>
                         <h3 className="resultMessage">
-                            {punktid === questionsData.length && "Väga hea töö, said kõik õigesti."}
+                            {punktid === questionsData.length && "Väga hea töö, vastasid kõikidele küsimustele õigesti."}
                             {punktid < questionsData.length && punktid >= questionsData.length / 2 && "Läbiv hinne, kuigi peaks ikka materjali ülevaatama."}
                             {punktid < questionsData.length / 2 && "Ei saanud piisavalt punkte, et viktoriinist läbi saada  : ("}
                         </h3>
