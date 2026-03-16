@@ -14,35 +14,59 @@ function App() {
         },
         {
             id:2,
-            question: "test2?",
-            options: ["test2", "test3", "test4"],
-            correct: "test2"
+            question: "Mis tähendab E2E testimine?",
+            options: ["Edge to Edge", "End to End", "Eternally to End"],
+            correct: "End to End"
         },
         {
             id: 3,
-            question: "Mitu paikset on?",
-            options: ["1", "2", "paris palju"],
-            correct: "1"
+            question: "Mitu planeeti on meie päikesesüsteemis?",
+            options: ["9", "8", "6","7"],
+            correct: "8"
         },
         {
             id: 4,
-            question: "Mis on koige parem koht eestis?",
-            options: ["Tartu", "Tallinn", "Tsoglo"],
-            correct: "Tsoglo"
+            question: "Kui internet ei tööta mida sa süüdistad?",
+            options: ["IT meeskond", "DNS", "Interneti Pakkujat"],
+            correct: "DNS"
         },
         {
             id: 5,
-            question: "Mitu tähte a on sõnas maasikas?",
+            question: "Mitu tähte 'a' on sõnas maasikas?",
             options: ["1", "2", "3","4","5"],
             correct: "3"
         },
         {
             id: 6,
             question: "Mida tähendab NAT?",
-            options: ["Nice Attitude Today", "Network Aadress Translation", "Network Attrition Topology"],
+            options: ["Nice Attitude Today", "Network Aadress Translation", "Network Attrition Topology","Near Altitude Translation"],
             correct: "Network Aadress Translation"
         },
-        ]
+        {
+            id: 7,
+            question: "Kes on eesti vabariigi president ?",
+            options: ["Teet Tiit", "Alar Karis","Arvo Pärt"],
+            correct: "Alar Karis"
+        },
+        {
+            id: 8,
+            question: "Milline neist on Eesti suurim saar?",
+            options: ["Hiiumaa", "Saaremaa", ],
+            correct: "Saaremaa"
+        },
+        {
+            id: 9,
+            question: "Mis on Eesti kõrgeim mägi?",
+            options: ["Suur Munamägi","Vällamägi", "Kuutsemägi"],
+            correct: "Suur Munamägi"
+        },
+        {
+            id: 10,
+            question: "Milline neist on Eesti riigikeel?",
+            options: ["Inglise", "Vene", "Eesti"],
+            correct: "Eesti"
+        }
+    ];
     const [currentQuestion, setCurrent] = useState(null)
     const [remainingQuestions, remRemaining] = useState([])
     const [questionsAnswered, setAnsweredQuestions] = useState([]);
