@@ -51,7 +51,7 @@ function App() {
         {
             id: 8,
             question: "Milline neist on Eesti suurim saar?",
-            options: ["Hiiumaa", "Saaremaa", ],
+            options: ["Hiiumaa", "Saaremaa","ruhnu" ],
             correct: "Saaremaa"
         },
         {
