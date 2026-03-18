@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
 import './App.css';
+interface question {
+    id: number;
+    question: string;
+    options: string[];
+    correct:string;
+}
 
+interface questionAnswered {
+    question: string;
+    userAnswer: string;
+    correct: boolean;
+}
+type quizStatus = 'menu' | 'quiz' | 'endScreen';
 function App() {
-    const [quizStatus, setQuizStatus] = useState('menu');
-    const [punktid, addPoint] = useState(0);
+    const [quizStatus, setQuizStatus] = useState<quizStatus>('menu');
+    const [punktid, addPoint] = useState<number>(0);
 
     const questionsData = [
         {
@@ -68,15 +80,15 @@ function App() {
         }
     ];
 
-    const [currentQuestion, setCurrent] = useState(null)
-    const [remainingQuestions, remRemaining] = useState([])
-    const [questionsAnswered, setAnsweredQuestions] = useState([]);
-    const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [currentQuestion, setCurrent] = useState<question | null>(null)
+    const [remainingQuestions, remRemaining] = useState<question[]>([])
+    const [questionsAnswered, setAnsweredQuestions] = useState<questionAnswered[]>([]);
+    const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
     /**
      * changeToQuiz Muudab kõik andmed oma vaikimisi olukorda ja aktiveerib quiz tseeni.
      */
-    const changeToQuiz = () =>{
+    const changeToQuiz = () : void =>{
         addPoint(0);
         setQuizStatus('quiz');
         setAnsweredQuestions([]);
@@ -89,7 +101,7 @@ function App() {
      * See võttab antud massiivist remainingQuestions suvalise küsimuse kasutades Math.random, ja siis andes selle küsimuse mängija ette, see teeb uue masiivi milles see küsimus ei ole osaline
      * @param remainingQuestions Massiiv milles on kõik võimalikud küsimused
      */
-    const nextQuestion = (remainingQuestions) => {
+    const nextQuestion = (remainingQuestions:question[]):void => {
         if (remainingQuestions.length === 0){
             setQuizStatus('endScreen');
             return;}
@@ -101,7 +113,7 @@ function App() {
         remRemaining(newRemaining);
     };
 
-    const changeToMenu = () => {setQuizStatus('menu');};
+    const changeToMenu = () : void => {setQuizStatus('menu');};
 
     /**
      * questionAnswer
@@ -109,7 +121,7 @@ function App() {
      * Kui vastus oli õige lisab ta punkti mängijale.
      * Iga küsimuse jaoks pandakse need kirja questionsAnswered massiivi, et mis on juba vastatud ja mis oli vastus, et saaks mängu lõppus need ette tuua.
      */
-    const questionAnswer = (answer) => {
+    const questionAnswer = (answer: string) :void => {
         if (selectedAnswer) return;
         setSelectedAnswer(answer);
         const answerCorrect = answer === currentQuestion.correct;
