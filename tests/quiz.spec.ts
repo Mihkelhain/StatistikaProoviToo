@@ -1,6 +1,14 @@
+
+interface question {
+    id: number;
+    question: string;
+    options: string[];
+    correct: string;
+}
+
 const { test, expect } = require('@playwright/test');
 
-const questionsData = [
+const questionsData: question[] = [
     {
         id: 1,
         question: "Mis on Eesti pealinn?",
