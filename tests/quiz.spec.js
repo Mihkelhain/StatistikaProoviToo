@@ -67,6 +67,12 @@ test.describe('viktoriin playwright test', () => {
 
     test('viktoriini täisvoog: alustamine, vastamine ja tulemus', async ({ page }) => {
         await page.goto('http://localhost:3000');
+
+        const githubLink = page.locator('a[href*="github.com"]');
+        await expect(githubLink).toBeVisible();
+        await expect(githubLink).toHaveAttribute('target', '_blank');
+        await expect(githubLink).toHaveAttribute('href', 'https://github.com/Mihkelhain/StatistikaProoviToo');
+
         await page.click('text=Alusta viktoriini');
 
         const question1Text = await page.locator('h1').innerText();
@@ -94,6 +100,11 @@ test.describe('viktoriin playwright test', () => {
         }
         await page.click('text=Järgmine küsimus');
         await expect(page.locator('h1')).toContainText(`Tulemus: ${questionsData.length-1} / ${questionsData.length}`);
+        await expect(page.locator('.row-correct')).toHaveCount(questionsData.length-1);
         await expect(page.locator('.row-wrong')).toHaveCount(1);
+
+        await page.click('text=Tagasi algusesse');
+        await expect(page.locator('text=Alusta viktoriini')).toBeVisible();
+        await expect(page.locator('h1')).toContainText('Viktoriini menüü');
     });
 });
